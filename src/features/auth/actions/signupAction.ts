@@ -9,7 +9,8 @@ const signupAction = async ( { request }: ActionFunctionArgs ) => {
   const confirm = formData.get( 'confirm' ) as string;
 
   try {
-    await authService.signup( email, password, confirm );
+    const profile = await authService.signup( email, password, confirm );
+    useAuthStore.getState().setID( profile.id );
     useAuthStore.setState( { auth: true } );
     return { success: true };
   } catch ( error ) {
