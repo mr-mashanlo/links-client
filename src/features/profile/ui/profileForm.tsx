@@ -29,8 +29,6 @@ const ProfileForm: FC = () => {
 
   useEffect( () => { setFileURL( image ); }, [ image ] );
 
-  console.log( location );
-
   return (
     <Form method="post" action="/edit/profile" encType="multipart/form-data" className="h-full flex flex-col gap-8">
       <div className="p-3 sm:p-10 border-b-2 border-gray-100">
@@ -38,8 +36,8 @@ const ProfileForm: FC = () => {
         <p className="mt-4">Add your details to create personal touch to your profile.</p>
       </div>
       <div className="p-3 sm:p-10 grid gap-8">
-        <label htmlFor="image" className={twMerge( 'group w-28 h-28 flex items-center justify-center outline-3 outline-gray-200 rounded-lg cursor-pointer relative', fileURL !== null ? 'outline-solid' : 'outline-dashed' )}>
-          <If condition={fileURL !== null}>
+        <label htmlFor="image" className={twMerge( 'group w-28 h-28 flex items-center justify-center outline-3 outline-gray-200 rounded-lg cursor-pointer relative', fileURL?.length ? 'outline-solid' : 'outline-dashed' )}>
+          <If condition={fileURL?.length}>
             <Then>
               <span className="p-3 text-gray-700 flex items-center justify-center text-xs text-center absolute top-0 left-0 bottom-0 right-0 z-20 opacity-0 duration-300 group-hover:opacity-100">JPEG PNG WEBP formats, up to 2MB</span>
               <img src={fileURL || ''} alt="Preview" className="rounded-lg object-cover duration-300 group-hover:opacity-50" />

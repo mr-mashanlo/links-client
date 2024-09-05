@@ -18,10 +18,9 @@ const ProfileLayout: FC = () => {
     setFirstname( loaderData.data.profile.firstname );
     setLastname( loaderData.data.profile.lastname );
     setEmail( loaderData.data.profile.email );
-    setImage( loaderData.data.image.url );
-    if ( loaderData.data.profile.links.length ) {
-      setLinks( loaderData.data.profile.links );
-    }
+    if ( loaderData.data.profile.links.length ) { setLinks( loaderData.data.profile.links ); }
+    if ( loaderData.data.image ) { setImage( loaderData.data.image.url ); }
+
   }, [ loaderData, setFirstname, setLastname, setEmail, setImage, setLinks ] );
 
   return (
