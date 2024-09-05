@@ -6,7 +6,6 @@ const logoutUser = async () => {
     await authService.logout();
     useAuthStore.getState().setID( '' );
     useAuthStore.getState().setAuth( false );
-    useAuthStore.getState().setRole( 'USER' );
     return { success: true };
   } catch ( error ) {
     return { success: false, error };
