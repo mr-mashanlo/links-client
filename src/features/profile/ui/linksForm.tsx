@@ -2,16 +2,7 @@ import { FC } from 'react';
 import { Button, Input, Select, Title } from '@/shared/ui';
 import useLinkStore from '../store/linkStore';
 import { Form, useNavigation } from 'react-router-dom';
-
-const platforms = [
-  { value: 'facebook', title: 'Facebook' },
-  { value: 'instagram', title: 'Instagram' },
-  { value: 'linkedin', title: 'Linkedin' },
-  { value: 'telegram', title: 'Telegram' },
-  { value: 'tiktok', title: 'Tiktok' },
-  { value: 'whatsapp', title: 'Whatsapp' },
-  { value: 'youtube', title: 'Youtube' }
-];
+import { platforms } from '@/shared/config';
 
 const LinksForm: FC = () => {
   const navigation = useNavigation();
@@ -19,6 +10,7 @@ const LinksForm: FC = () => {
   const addLink = useLinkStore( state => state.addLink );
   const updateLink = useLinkStore( state => state.updateLink );
   const removeLink = useLinkStore( state => state.removeLink );
+  const options = Object.values( platforms ).map( platform => ( { value: platform.slug, title: platform.title } ) );
 
   return (
     <Form method="post" action="/edit/links" className="h-full flex flex-col">
@@ -30,7 +22,7 @@ const LinksForm: FC = () => {
         <div className="grid gap-11">
           {links.map( link => (
             <div key={link.id} className="grid grid-cols-[2fr_2fr_1fr] gap-8">
-              <Select onChange={e => updateLink( link.id, { platform: e.target.value } )} options={platforms} defaultValue={link.platform} id={`platform-${link.id}`} label="Platform" required />
+              <Select onChange={e => updateLink( link.id, { platform: e.target.value } )} options={options} defaultValue={link.platform} id={`platform-${link.id}`} label="Platform" required />
               <Input onChange={e => updateLink( link.id, { url: e.target.value } )} defaultValue={link.url} type="url" id={`url-${link.id}`} label="Link" required />
               <Button onClick={() => removeLink( link )} type="button" variant="outline">Delete</Button>
             </div>

@@ -1,18 +1,10 @@
 import { FC } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
+import { Else, If, Then } from 'react-if';
 import { IProfile } from '@/entities/profile';
 import { IMedia } from '@/entities/media';
-import { Else, If, Then } from 'react-if';
-
-const platforms = {
-  facebook: 'Facebook',
-  instagram: 'Instagram',
-  linkedin: 'Linkedin',
-  telegram: 'Telegram',
-  tiktok: 'Tiktok',
-  whatsapp: 'Whatsapp',
-  youtube: 'Youtube'
-};
+import { platforms } from '@/shared/config';
 
 const ViewProfilePage: FC = () => {
   const loaderData = useLoaderData() as { success: boolean, data: { profile: IProfile, image: IMedia } };
@@ -24,14 +16,19 @@ const ViewProfilePage: FC = () => {
           <div className="w-full max-w-96 py-20 flex flex-col">
             <div className="text-center">
               <If condition={loaderData.data.image.url.length}>
-                <Then><img src={loaderData.data.image.url} alt="Image" className="w-16 h-16 mx-auto rounded-full" /></Then>
+                <Then><img src={loaderData.data.image.url} alt="Image" className="w-16 h-16 mx-auto rounded-full object-cover" /></Then>
                 <Else><div className="w-16 h-16 mx-auto bg-gray-500 rounded-full"></div></Else>
               </If>
               <p className="mt-4 font-bold text-xl">{loaderData.data.profile.firstname} {loaderData.data.profile.lastname}</p>
               <p className="mt-2 text-gray-500">{loaderData.data.profile.email}</p>
             </div>
             <ul className="mt-10 flex flex-col gap-4">
-              {loaderData.data.profile.links.map( link => ( <li key={link.id}><a href={link.url} className="flex p-4 bg-gray-100 rounded-lg" target="_blank">{platforms[link.platform as keyof typeof platforms]}</a></li> ) )}
+              {loaderData.data.profile.links.map( link => ( <li key={link.id}>
+                <a href={link.url} className={twMerge( 'p-4 bg-gray-100 rounded-lg flex items-center gap-2', platforms[link.platform].color )} target="_blank">
+                  <img src={platforms[link.platform].icon} alt="Icon" className="h-5" />
+                  {platforms[link.platform].title}
+                </a>
+              </li> ) )}
             </ul>
           </div>
         </div>
